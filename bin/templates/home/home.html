@@ -1,16 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1"/>
+<meta charset="ISO-8859-1" />
 <title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+	integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+	crossorigin="anonymous"></script>
+<script src="/webjars/jquery/jquery.min.js"></script>
+<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/stomp.min.js"></script>
 </head>
 <body>
 	<fieldset>
 		<legend>Qaurtz</legend>
-		<hr/>
-		<a href="qaurtz/5sec">5 Sec Log</a>
-		<a href="qaurtz/10sec">10 Sec Log</a>
-		<a href="qaurtz/sch">16:50 Log</a>
+		<hr />
+		<a href="qaurtz/5sec">5 Sec Log</a> <a href="qaurtz/10sec">10 Sec
+			Log</a> <a href="qaurtz/sch">16:50 Log</a>
 	</fieldset>
+	<br />
+	<br />
+	<fieldset>
+		<legend>Greeting Socket!</legend>
+		<input name="message" id="name" placeholder="Name" />
+		<button id="greeting-submit">Send</button>
+		<br />
+		<table id="greeting-table"></table>
+	</fieldset>
+	<script type="text/javascript">
+	var socket = new SockJS('/gs-guide-websocket');
+	var stompClient = Stomp.over(socket);
+	stompClient.connect({}, function(frame){
+		//setConnected(true);
+		console.log('Connected: ' + frame);
+		stompClient.subscribe("/topic/greetings", function(greeting){
+			$("#greeting-table").append("<tr><td>" + JSON.parse(greeting.body).content + "</td></tr>");
+		});
+	});
+		$("#greeting-submit").click(function() {
+			stompClient.send("/app/hello", {}, JSON.stringify({'name': $("#name").val()}));
+		});
+	</script>
 </body>
 </html>

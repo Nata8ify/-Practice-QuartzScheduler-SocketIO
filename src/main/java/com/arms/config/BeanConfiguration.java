@@ -4,9 +4,12 @@ import org.quartz.CronScheduleBuilder;
 import org.quartz.Job;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
 import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
+import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -43,7 +46,12 @@ public class BeanConfiguration {
 				.newTrigger()
 				.withIdentity("log_trigger_sch", "1")
 				.withDescription("For trigger a jobDetail")
-				.withSchedule(CronScheduleBuilder.cronSchedule("0 00 17 * * ?")) // everyday at 17:00:00.
+				.withSchedule(CronScheduleBuilder.cronSchedule("0 31 0 * * ?")) // everyday at 17:00:00.
 				.build();
+	}
+	
+	@Bean
+	public Scheduler scheduler() throws SchedulerException{
+		return  StdSchedulerFactory.getDefaultScheduler();
 	}
 }

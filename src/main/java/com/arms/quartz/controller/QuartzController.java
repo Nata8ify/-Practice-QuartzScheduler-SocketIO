@@ -35,29 +35,26 @@ public class QuartzController {
 	
 	
 	@Autowired
-	Job logScheduleJob;
+	Scheduler scheduler;
 	
 	@RequestMapping("/5sec")
 	public String log5Second() throws SchedulerException, IOException{
-		Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
-		scheduler.start();
 		scheduler.scheduleJob(JobBuilder.newJob().ofType(LogScheduleComponent.class).withIdentity("log").build(), trigger5Sec);
+		scheduler.start();
 		return "redirect:/";
 	}
 	
 	@RequestMapping("/10sec")
 	public String log10Second() throws SchedulerException{
-		Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
-		scheduler.start();
 		scheduler.scheduleJob(JobBuilder.newJob().ofType(LogScheduleComponent.class).build(), trigger10Sec);
+		scheduler.start();
 		return "redirect:/";
 	}
 	
 	@RequestMapping("/sch")
 	public String log1650() throws SchedulerException{
-		Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
-		scheduler.start();
 		scheduler.scheduleJob(JobBuilder.newJob().ofType(LogScheduleComponent.class).build(), triggerSchedule);
+		scheduler.start();
 		return "redirect:/";
 	}
 }

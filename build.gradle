@@ -35,6 +35,12 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.quartz-scheduler/quartz
 compile group: 'org.quartz-scheduler', name: 'quartz', version: '2.2.1'
 
+compile("org.springframework.boot:spring-boot-starter-websocket")
+    compile("org.webjars:webjars-locator")
+    compile("org.webjars:sockjs-client:1.0.2")
+    compile("org.webjars:stomp-websocket:2.3.3")
+    compile("org.webjars:bootstrap:3.3.7")
+    compile("org.webjars:jquery:3.1.0")
 	
 	compileOnly('org.projectlombok:lombok')
 	providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
